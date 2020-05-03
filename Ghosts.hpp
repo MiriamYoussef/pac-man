@@ -1,25 +1,28 @@
 
 #include<iostream>
+#include<iostream>
 #include <SFML/Audio.hpp>
 #include <SFML/Graphics.hpp>
+#include"Player.h"
 using namespace std;
 using namespace sf;
 
-#ifndef Ghosts_hpp
-#define Ghosts_hpp
+
 #include <stdio.h>
 
 class Ghost
 {
 private:
     int row, column;
-    RectangleShape shape;
     Texture texture;
 public:
+    Ghost();
     Ghost(int, int, string);
     void Normal_mode();
     void Fright_mode();
-    void DrawOnWindow (RenderWindow&);
+    void DrawOnWindow(RenderWindow&);
+    RectangleShape ghosts;
 
 };
+
 #endif /* Ghosts_hpp */
