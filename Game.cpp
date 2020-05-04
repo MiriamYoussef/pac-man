@@ -8,6 +8,10 @@ Game::Game()
      Blinky.Set_Ghost(16, 16, "blinkypic.png");
      Clyde.Set_Ghost(13, 14, "clydepic.png");
    
+     blue.loadFromFile("blueghost.png");
+
+     sec = seconds(7.0);
+     elapsed = clock.getElapsedTime();
 
     score = 0;
     highscore = 0;
@@ -152,6 +156,8 @@ void Game::Start()
         }
         pelleteaten();
         pacmaneaten();
+        frightmode();
+        checkfrightmode();
         window.clear();
         ss << score;
         scorenumbers.setString(ss.str());
@@ -167,6 +173,8 @@ void Game::Start()
         window.draw(livestext);
         Display_lives();
         Display_score();
+        computeLives();
+        End();
         window.display();
     }
 
@@ -189,6 +197,7 @@ void Game::pelleteaten()
                 cout << "super pellet";
                 board.dot[i][j].setFillColor(Color::Transparent);
                 score = score + 50;
+                frightmode()==true;
             }
 
         }
@@ -205,38 +214,69 @@ void Game::pacmaneaten(){
                 pacmanlives--;
                 player.Set_Player(26, 14, "pacmanright.png", "pacmanleft.png", "pacmanup.png", "pacmandown.png");
             }
-            else if (player.pac.getGlobalBounds().intersects(Pinky.ghosts.getGlobalBounds())/* && frightmode() == false*/)
+            else if (player.pac.getGlobalBounds().intersects(Pinky.ghosts.getGlobalBounds()) && frightmode() == false)
             {
                 pacmanlives--;
                 player.Set_Player(26, 14, "pacmanright.png", "pacmanleft.png", "pacmanup.png", "pacmandown.png");
             }
-            else if (player.pac.getGlobalBounds().intersects(Clyde.ghosts.getGlobalBounds())/* && frightmode() == false*/)
+            else if (player.pac.getGlobalBounds().intersects(Clyde.ghosts.getGlobalBounds()) && frightmode() == false)
             {
                 pacmanlives--;
                 player.Set_Player(26, 14, "pacmanright.png", "pacmanleft.png", "pacmanup.png", "pacmandown.png");
             }
-            else if (player.pac.getGlobalBounds().intersects(Blinky.ghosts.getGlobalBounds()) /* && frightmode() == false*/)
+            else if (player.pac.getGlobalBounds().intersects(Blinky.ghosts.getGlobalBounds())  && frightmode() == false)
             {
                 pacmanlives--;
                 player.Set_Player(26, 14, "pacmanright.png", "pacmanleft.png", "pacmanup.png", "pacmandown.png");
             }
-            else if (player.pac.getGlobalBounds().intersects(Blinky.ghosts.getGlobalBounds())/* && frightmode() == true*/)
+            else if (player.pac.getGlobalBounds().intersects(Blinky.ghosts.getGlobalBounds()) && frightmode() == true)
             {
                 score=score+200;
             }
-            else if (player.pac.getGlobalBounds().intersects(Inky.ghosts.getGlobalBounds())/* && frightmode() == true*/)
+            else if (player.pac.getGlobalBounds().intersects(Inky.ghosts.getGlobalBounds()) && frightmode() == true)
             {
                 score = score + 200;
             }
-            else if (player.pac.getGlobalBounds().intersects(Pinky.ghosts.getGlobalBounds())/* && frightmode() == true*/)
+            else if (player.pac.getGlobalBounds().intersects(Pinky.ghosts.getGlobalBounds()) && frightmode() == true)
             {
                 score = score + 200;
             }
-            else if (player.pac.getGlobalBounds().intersects(Clyde.ghosts.getGlobalBounds())/* && frightmode() == true*/)
+            else if (player.pac.getGlobalBounds().intersects(Clyde.ghosts.getGlobalBounds()) && frightmode() == true)
             {
                 score = score + 200;
             }
             
+        }
+    }
+}
+
+bool Game::frightmode()
+{
+    for (int i = 0; i < 34; i++)
+    {
+        for (int j = 0; j < 28; j++)
+        {
+            if (player.pac.getGlobalBounds().intersects(board.dot[i][j].getGlobalBounds()) && board.dot[i][j].getFillColor() == Color::Yellow)
+            {
+                return true;
+            }
+            else return false;
+        }
+    }
+}
+
+void Game::checkfrightmode()
+{
+    if (frightmode() == true)
+    {
+        clock.restart();
+        while (clock.getElapsedTime() < sec )
+        {
+
+            Pinky.ghosts.setTexture(&blue);
+            Inky.ghosts.setTexture(&blue);
+            Blinky.ghosts.setTexture(&blue);
+            Clyde.ghosts.setTexture(&blue);
         }
     }
 }
@@ -250,4 +290,5 @@ void Game::computeLives()
 void Game::End()
 {
     window.draw(endtext);
+    window.close();
 }
