@@ -1,7 +1,6 @@
-
 #include "Board.h"
 
-Board::Board(int arr[34][28])
+void Board::Set_Board(int arr[][28])
 {
     brick.loadFromFile("bricks.png");
     black.loadFromFile("black.jpeg");

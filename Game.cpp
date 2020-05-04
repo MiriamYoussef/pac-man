@@ -1,9 +1,14 @@
-
-
 #include "Game.h"
 
 Game::Game()
 {
+    player.Set_Player(26, 14, "pacmanright.png", "pacmanleft.png", "pacmanup.png", "pacmandown.png");
+    Pinky.Set_Ghost(12, 16, "pinkypic.png");
+     Inky.Set_Ghost(14, 16, "inkypic.png");
+     Blinky.Set_Ghost(16, 16, "blinkypic.png");
+     Clyde.Set_Ghost(13, 14, "clydepic.png");
+   
+
     score = 0;
     highscore = 0;
     pacmanlives = 3;
@@ -99,12 +104,13 @@ void Game::Display_score()
 
 void Game::Start()
 {
-    Player player(26, 14, "pacmanright.png", "pacmanleft.png", "pacmanup.png", "pacmandown.png");
+   /* Player player(26, 14, "pacmanright.png", "pacmanleft.png", "pacmanup.png", "pacmandown.png");
     Ghost Pinky(12, 16, "pinkypic.png");
     Ghost Inky(14, 16, "inkypic.png");
     Ghost Blinky(16, 16, "blinkypic.png");
     Ghost Clyde(13, 14, "clydepic.png");
-    Board board(arr);
+    Board board(arr);*/
+    board.Set_Board(arr);
     LivesConstructor();
     stringstream ss;
 
@@ -144,6 +150,8 @@ void Game::Start()
                 }
             }
         }
+        pelleteaten();
+        pacmaneaten();
         window.clear();
         ss << score;
         scorenumbers.setString(ss.str());
@@ -164,19 +172,21 @@ void Game::Start()
 
 }
 
-void Game::pelleteaten(int arr[24][38])
+void Game::pelleteaten()
 {
     for (int i = 0; i < 34; i++) 
     {
         for (int j = 0; j < 28; j++)
         {
-            if (pacman.pac.getGlobalBounds().intersects(board.dot[i][j].getGlobalBounds()) && board.dot[i][j].getFillColor() == Color::White)
+            if (player.pac.getGlobalBounds().intersects(board.dot[i][j].getGlobalBounds()) && board.dot[i][j].getFillColor() == Color::White)
             {
+                cout << "in pellet";
                 board.dot[i][j].setFillColor(Color::Transparent);
                 score = score + 10;
             }
-            else if (pacman.pac.getGlobalBounds().intersects(board.dot[i][j].getGlobalBounds()) && board.dot[i][j].getFillColor() == Color::Yellow)
+            else if (player.pac.getGlobalBounds().intersects(board.dot[i][j].getGlobalBounds()) && board.dot[i][j].getFillColor() == Color::Yellow)
             {
+                cout << "super pellet";
                 board.dot[i][j].setFillColor(Color::Transparent);
                 score = score + 50;
             }
@@ -185,21 +195,46 @@ void Game::pelleteaten(int arr[24][38])
     }
 }
 
-void Game::pacmaneaten(int arr[24][38])
-{
+void Game::pacmaneaten(){
     for (int i = 0; i < 34; i++)
     {
         for (int j = 0; j < 28; j++)
         {
-            if (pacman.pac.getGlobalBounds().intersects(ghost.ghosts.getGlobalBounds()) && frightmode() == false)
+            if (player.pac.getGlobalBounds().intersects(Inky.ghosts.getGlobalBounds())/* && frightmode() == false*/)
             {
                 pacmanlives--;
-                pacman.pac.setPosition(26, 14);
-
+                player.Set_Player(26, 14, "pacmanright.png", "pacmanleft.png", "pacmanup.png", "pacmandown.png");
             }
-            else if (pacman.pac.getGlobalBounds().intersects(ghost.ghosts.getGlobalBounds()) && frightmode() == true)
+            else if (player.pac.getGlobalBounds().intersects(Pinky.ghosts.getGlobalBounds())/* && frightmode() == false*/)
+            {
+                pacmanlives--;
+                player.Set_Player(26, 14, "pacmanright.png", "pacmanleft.png", "pacmanup.png", "pacmandown.png");
+            }
+            else if (player.pac.getGlobalBounds().intersects(Clyde.ghosts.getGlobalBounds())/* && frightmode() == false*/)
+            {
+                pacmanlives--;
+                player.Set_Player(26, 14, "pacmanright.png", "pacmanleft.png", "pacmanup.png", "pacmandown.png");
+            }
+            else if (player.pac.getGlobalBounds().intersects(Blinky.ghosts.getGlobalBounds()) /* && frightmode() == false*/)
+            {
+                pacmanlives--;
+                player.Set_Player(26, 14, "pacmanright.png", "pacmanleft.png", "pacmanup.png", "pacmandown.png");
+            }
+            else if (player.pac.getGlobalBounds().intersects(Blinky.ghosts.getGlobalBounds())/* && frightmode() == true*/)
             {
                 score=score+200;
+            }
+            else if (player.pac.getGlobalBounds().intersects(Inky.ghosts.getGlobalBounds())/* && frightmode() == true*/)
+            {
+                score = score + 200;
+            }
+            else if (player.pac.getGlobalBounds().intersects(Pinky.ghosts.getGlobalBounds())/* && frightmode() == true*/)
+            {
+                score = score + 200;
+            }
+            else if (player.pac.getGlobalBounds().intersects(Clyde.ghosts.getGlobalBounds())/* && frightmode() == true*/)
+            {
+                score = score + 200;
             }
             
         }
