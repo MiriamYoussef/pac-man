@@ -17,6 +17,10 @@ private:
     Font font;
     int score;
     int highscore;
+    Texture blue;
+    Time sec;
+    Time elapsed;
+    Clock clock;
     Player player;
     Ghost Pinky;
     Ghost Inky;
@@ -29,7 +33,8 @@ private:
     void pelleteaten();
     void pacmaneaten();
     void computeLives();
-    //bool frightmode();
+    bool frightmode();
+    void checkfrightmode();
 
 public:
     Game();
