@@ -1,4 +1,3 @@
-
 #include "Ghosts.h"
 
 Ghost::Ghost()
@@ -6,7 +5,7 @@ Ghost::Ghost()
 
 }
 
-Ghost::Ghost(int initialcol, int initialrow, string imagename)
+void Ghost::Set_Ghost(int initialcol, int initialrow, string imagename)
 {
     ghosts.setPosition(40 + 40 * initialcol, 40 + 40 * initialrow);
     row = initialrow;
@@ -16,11 +15,71 @@ Ghost::Ghost(int initialcol, int initialrow, string imagename)
     ghosts.setTexture(&texture);
 }
 
-
-
-void Ghost::Fright_mode()
+void Ghost::Moverand(int arr[34][28])
 {
+    srand(time(NULL));
+    
+    char direction;
+    int m = rand() % 4 + 1;
 
+      //use same function but add here a rand function to assign value to direction 
+      //do not pass direction as a funtion parameter
+    
+    if (m == 1)
+    {
+
+        (tolower(direction) == 'u');
+        if (arr[row - 1][column] != 1)
+        {
+            ghosts.move(0, -40);
+            row--;
+        }
+    }
+    else if (m == 2)
+    {
+        (tolower(direction) == 'd');
+
+        if (arr[row + 1][column] != 1)
+        {
+            ghosts.move(0, 40);
+            row++;
+        }
+
+    }
+    else if (m == 3)
+    {
+
+        (tolower(direction) == 'l');
+    
+          if (arr[row][column - 1] != 1)
+          {
+              ghosts.move(-40, 0);
+              column--;
+          }
+          if (arr[row][column] == 4)
+          {
+              row = 16;
+              column = 27;
+              ghosts.setPosition(40 + 40 * column, 40 + 40 * row);
+          }
+    } 
+      else if (m==4)
+      {
+        (tolower(direction) == 'r');
+      
+          if (arr[row][column + 1] != 1)
+          {
+              ghosts.move(40, 0);
+              column++;
+          }
+          if (arr[row][column] == 4)
+          {
+              row = 16;
+              column = 0;
+              ghosts.setPosition(40 + 40 * column, 40 + 40 * row);
+          }
+      }
+    
 }
 
 
@@ -28,7 +87,7 @@ void Ghost::DrawOnWindow(RenderWindow& window)
 {
     window.draw(ghosts);
 }
-void Normal_mode()
+void Ghost::Normal_mode()
 {
 
 }
