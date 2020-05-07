@@ -1,6 +1,15 @@
+#pragma once
+#include<SFML/Graphics.hpp>
+#include<SFML/Audio.hpp>
+#include<iostream>
+#include<fstream>
+using namespace std;
+using namespace sf;
+
 #include "Board.h"
 #include "Player.h"
 #include "Ghosts.h"
+#include "Sounds.h"
 #include "sstream"
 
 class Game
@@ -17,19 +26,26 @@ private:
     Font font;
     int score;
     int highscore;
+    Texture blue;
+    Time sec;
+    Time elapsed;
+    Clock clock;
     Player player;
     Ghost Pinky;
     Ghost Inky;
     Ghost Clyde;
     Ghost Blinky;
     Board board;
+    Sounds sounds;
     void LivesConstructor();
     void Display_lives();
     void Display_score();
     void pelleteaten();
     void pacmaneaten();
     void computeLives();
-    //bool frightmode();
+    bool frightmode();
+    void checkfrightmode();
+    void sound();
 
 public:
     Game();

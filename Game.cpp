@@ -8,6 +8,10 @@ Game::Game()
      Blinky.Set_Ghost(16, 16, "blinkypic.png");
      Clyde.Set_Ghost(13, 14, "clydepic.png");
    
+     blue.loadFromFile("blueghost.png");
+
+     sec = seconds(7.0);
+     elapsed = clock.getElapsedTime();
 
     score = 0;
     highscore = 0;
@@ -148,10 +152,17 @@ void Game::Start()
                     break;
 
                 }
+
             }
-        }
+            Inky  .Moverand(arr);
+            Pinky .Moverand( arr);
+            Blinky.Moverand( arr);
+            Clyde .Moverand(arr);
+        }                 
         pelleteaten();
         pacmaneaten();
+        frightmode();
+        checkfrightmode();
         window.clear();
         ss << score;
         scorenumbers.setString(ss.str());
@@ -163,10 +174,11 @@ void Game::Start()
         Inky.DrawOnWindow(window);
         Blinky.DrawOnWindow(window);
         window.draw(scoretext);
-        window.draw(highscoretext);
+        //window.draw(highscoretext);
         window.draw(livestext);
         Display_lives();
         Display_score();
+        computeLives();
         window.display();
     }
 
@@ -183,14 +195,19 @@ void Game::pelleteaten()
                 cout << "in pellet";
                 board.dot[i][j].setFillColor(Color::Transparent);
                 score = score + 10;
+                sounds.set_Sounds("pacman_chomp.wav");
+                sounds.s.play();
             }
             else if (player.pac.getGlobalBounds().intersects(board.dot[i][j].getGlobalBounds()) && board.dot[i][j].getFillColor() == Color::Yellow)
             {
                 cout << "super pellet";
                 board.dot[i][j].setFillColor(Color::Transparent);
                 score = score + 50;
+                sounds.set_Sounds("pacman_chomp.wav");
+                sounds.s.setBuffer(sounds.buffer);
+                sounds.s.play();
             }
-
+            
         }
     }
 }
@@ -200,43 +217,98 @@ void Game::pacmaneaten(){
     {
         for (int j = 0; j < 28; j++)
         {
-            if (player.pac.getGlobalBounds().intersects(Inky.ghosts.getGlobalBounds())/* && frightmode() == false*/)
+            if (player.pac.getGlobalBounds().intersects(Inky.ghosts.getGlobalBounds()) && frightmode() == false)
             {
                 pacmanlives--;
+                sounds.set_Sounds("pacman_death.wav");
+                sounds.s.setBuffer(sounds.buffer);
+                sounds.s.play();
                 player.Set_Player(26, 14, "pacmanright.png", "pacmanleft.png", "pacmanup.png", "pacmandown.png");
             }
-            else if (player.pac.getGlobalBounds().intersects(Pinky.ghosts.getGlobalBounds())/* && frightmode() == false*/)
+            else if (player.pac.getGlobalBounds().intersects(Pinky.ghosts.getGlobalBounds()) && frightmode() == false)
             {
                 pacmanlives--;
+                sounds.set_Sounds("pacman_death.wav");
+                sounds.s.setBuffer(sounds.buffer);
+                sounds.s.play();
                 player.Set_Player(26, 14, "pacmanright.png", "pacmanleft.png", "pacmanup.png", "pacmandown.png");
             }
-            else if (player.pac.getGlobalBounds().intersects(Clyde.ghosts.getGlobalBounds())/* && frightmode() == false*/)
+            else if (player.pac.getGlobalBounds().intersects(Clyde.ghosts.getGlobalBounds()) && frightmode() == false)
             {
                 pacmanlives--;
+                sounds.set_Sounds("pacman_death.wav");
+                sounds.s.setBuffer(sounds.buffer);
+                sounds.s.play();
                 player.Set_Player(26, 14, "pacmanright.png", "pacmanleft.png", "pacmanup.png", "pacmandown.png");
             }
-            else if (player.pac.getGlobalBounds().intersects(Blinky.ghosts.getGlobalBounds()) /* && frightmode() == false*/)
+            else if (player.pac.getGlobalBounds().intersects(Blinky.ghosts.getGlobalBounds())  && frightmode() == false)
             {
                 pacmanlives--;
+                sounds.set_Sounds("pacman_death.wav");
+                sounds.s.setBuffer(sounds.buffer);
+                sounds.s.play();
                 player.Set_Player(26, 14, "pacmanright.png", "pacmanleft.png", "pacmanup.png", "pacmandown.png");
             }
-            else if (player.pac.getGlobalBounds().intersects(Blinky.ghosts.getGlobalBounds())/* && frightmode() == true*/)
+            else if (player.pac.getGlobalBounds().intersects(Blinky.ghosts.getGlobalBounds()) && frightmode() == true)
             {
                 score=score+200;
+                sounds.set_Sounds("pacman_eatghost.wav");
+                sounds.s.setBuffer(sounds.buffer);
+                sounds.s.play();
             }
-            else if (player.pac.getGlobalBounds().intersects(Inky.ghosts.getGlobalBounds())/* && frightmode() == true*/)
+            else if (player.pac.getGlobalBounds().intersects(Inky.ghosts.getGlobalBounds()) && frightmode() == true)
             {
                 score = score + 200;
+                sounds.set_Sounds("pacman_eatghost.wav");
+                sounds.s.setBuffer(sounds.buffer);
+                sounds.s.play();
             }
-            else if (player.pac.getGlobalBounds().intersects(Pinky.ghosts.getGlobalBounds())/* && frightmode() == true*/)
+            else if (player.pac.getGlobalBounds().intersects(Pinky.ghosts.getGlobalBounds()) && frightmode() == true)
             {
                 score = score + 200;
+                sounds.set_Sounds("pacman_eatghost.wav");
+                sounds.s.setBuffer(sounds.buffer);
+                sounds.s.play();
             }
-            else if (player.pac.getGlobalBounds().intersects(Clyde.ghosts.getGlobalBounds())/* && frightmode() == true*/)
+            else if (player.pac.getGlobalBounds().intersects(Clyde.ghosts.getGlobalBounds()) && frightmode() == true)
             {
                 score = score + 200;
+                sounds.set_Sounds("pacman_eatghost.wav");
+                sounds.s.setBuffer(sounds.buffer);
+                sounds.s.play();
             }
             
+        }
+    }
+}
+
+bool Game::frightmode()
+{
+    for (int i = 0; i < 34; i++)
+    {
+        for (int j = 0; j < 28; j++)
+        {
+            if (player.pac.getGlobalBounds().intersects(board.dot[i][j].getGlobalBounds()) && board.dot[i][j].getFillColor() == Color::Yellow)
+            {
+                return true;
+            }
+            else 
+                return false;
+        }
+    }
+}
+
+void Game::checkfrightmode()
+{
+    if (frightmode() == true)
+    {
+        clock.restart();
+        while (clock.getElapsedTime() < sec )
+        {
+            Pinky.ghosts.setTexture(&blue);
+            Inky.ghosts.setTexture(&blue);
+            Blinky.ghosts.setTexture(&blue);
+            Clyde.ghosts.setTexture(&blue);
         }
     }
 }
