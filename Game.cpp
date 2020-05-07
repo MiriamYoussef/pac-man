@@ -152,8 +152,13 @@ void Game::Start()
                     break;
 
                 }
+
             }
-        }
+            Inky  .Moverand(arr);
+            Pinky .Moverand( arr);
+            Blinky.Moverand( arr);
+            Clyde .Moverand(arr);
+        }                 
         pelleteaten();
         pacmaneaten();
         frightmode();
@@ -169,12 +174,11 @@ void Game::Start()
         Inky.DrawOnWindow(window);
         Blinky.DrawOnWindow(window);
         window.draw(scoretext);
-        window.draw(highscoretext);
+        //window.draw(highscoretext);
         window.draw(livestext);
         Display_lives();
         Display_score();
         computeLives();
-        End();
         window.display();
     }
 
@@ -191,15 +195,19 @@ void Game::pelleteaten()
                 cout << "in pellet";
                 board.dot[i][j].setFillColor(Color::Transparent);
                 score = score + 10;
+                sounds.set_Sounds("dot.wav");
+                sounds.s.play();
             }
             else if (player.pac.getGlobalBounds().intersects(board.dot[i][j].getGlobalBounds()) && board.dot[i][j].getFillColor() == Color::Yellow)
             {
                 cout << "super pellet";
                 board.dot[i][j].setFillColor(Color::Transparent);
                 score = score + 50;
-                frightmode()==true;
+                sounds.set_Sounds("dot.wav");
+                sounds.s.setBuffer(sounds.buffer);
+                sounds.s.play();
             }
-
+            
         }
     }
 }
@@ -209,7 +217,7 @@ void Game::pacmaneaten(){
     {
         for (int j = 0; j < 28; j++)
         {
-            if (player.pac.getGlobalBounds().intersects(Inky.ghosts.getGlobalBounds())/* && frightmode() == false*/)
+            if (player.pac.getGlobalBounds().intersects(Inky.ghosts.getGlobalBounds()) && frightmode() == false)
             {
                 pacmanlives--;
                 player.Set_Player(26, 14, "pacmanright.png", "pacmanleft.png", "pacmanup.png", "pacmandown.png");
@@ -260,7 +268,8 @@ bool Game::frightmode()
             {
                 return true;
             }
-            else return false;
+            else 
+                return false;
         }
     }
 }
@@ -272,7 +281,6 @@ void Game::checkfrightmode()
         clock.restart();
         while (clock.getElapsedTime() < sec )
         {
-
             Pinky.ghosts.setTexture(&blue);
             Inky.ghosts.setTexture(&blue);
             Blinky.ghosts.setTexture(&blue);
@@ -290,5 +298,4 @@ void Game::computeLives()
 void Game::End()
 {
     window.draw(endtext);
-    window.close();
 }
