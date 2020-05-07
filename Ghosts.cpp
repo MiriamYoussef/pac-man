@@ -20,28 +20,28 @@ void Ghost::Moverand(int arr[34][28])
     srand(time(NULL));
     
     char direction;
-    int m = rand() % 4 + 1;
+    int m = rand() % 4 ;
 
       //use same function but add here a rand function to assign value to direction 
       //do not pass direction as a funtion parameter
-    
+    //if (ghosts.getGlobalBounds().intersects())
     if (m == 1)
     {
 
-        (tolower(direction) == 'u');
+        //(tolower(direction) == 'u');
         if (arr[row - 1][column] != 1)
         {
-            ghosts.move(0, -40);
+            ghosts.move(Vector2f(0, -40));
             row--;
         }
     }
     else if (m == 2)
     {
-        (tolower(direction) == 'd');
+        //(tolower(direction) == 'd');
 
         if (arr[row + 1][column] != 1)
         {
-            ghosts.move(0, 40);
+            ghosts.move(Vector2f(0, 40));
             row++;
         }
 
@@ -49,39 +49,38 @@ void Ghost::Moverand(int arr[34][28])
     else if (m == 3)
     {
 
-        (tolower(direction) == 'l');
+        //(tolower(direction) == 'l');
     
           if (arr[row][column - 1] != 1)
           {
-              ghosts.move(-40, 0);
+              ghosts.move(Vector2f(-40, 0));
               column--;
           }
-          if (arr[row][column] == 4)
+          /*if (arr[row][column] == 4)
           {
               row = 16;
               column = 27;
               ghosts.setPosition(40 + 40 * column, 40 + 40 * row);
-          }
+          }*/
     } 
       else if (m==4)
       {
-        (tolower(direction) == 'r');
+       // (tolower(direction) == 'r');
       
           if (arr[row][column + 1] != 1)
           {
-              ghosts.move(40, 0);
+              ghosts.move(Vector2f(40, 0));
               column++;
           }
-          if (arr[row][column] == 4)
+          /*if (arr[row][column] == 4)
           {
               row = 16;
               column = 0;
               ghosts.setPosition(40 + 40 * column, 40 + 40 * row);
-          }
+          }*/
       }
     
 }
-
 
 void Ghost::DrawOnWindow(RenderWindow& window)
 {
