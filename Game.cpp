@@ -195,7 +195,7 @@ void Game::pelleteaten()
                 cout << "in pellet";
                 board.dot[i][j].setFillColor(Color::Transparent);
                 score = score + 10;
-                sounds.set_Sounds("dot.wav");
+                sounds.set_Sounds("pacman_chomp.wav");
                 sounds.s.play();
             }
             else if (player.pac.getGlobalBounds().intersects(board.dot[i][j].getGlobalBounds()) && board.dot[i][j].getFillColor() == Color::Yellow)
@@ -203,7 +203,7 @@ void Game::pelleteaten()
                 cout << "super pellet";
                 board.dot[i][j].setFillColor(Color::Transparent);
                 score = score + 50;
-                sounds.set_Sounds("dot.wav");
+                sounds.set_Sounds("pacman_chomp.wav");
                 sounds.s.setBuffer(sounds.buffer);
                 sounds.s.play();
             }
@@ -220,38 +220,62 @@ void Game::pacmaneaten(){
             if (player.pac.getGlobalBounds().intersects(Inky.ghosts.getGlobalBounds()) && frightmode() == false)
             {
                 pacmanlives--;
+                sounds.set_Sounds("pacman_death.wav");
+                sounds.s.setBuffer(sounds.buffer);
+                sounds.s.play();
                 player.Set_Player(26, 14, "pacmanright.png", "pacmanleft.png", "pacmanup.png", "pacmandown.png");
             }
             else if (player.pac.getGlobalBounds().intersects(Pinky.ghosts.getGlobalBounds()) && frightmode() == false)
             {
                 pacmanlives--;
+                sounds.set_Sounds("pacman_death.wav");
+                sounds.s.setBuffer(sounds.buffer);
+                sounds.s.play();
                 player.Set_Player(26, 14, "pacmanright.png", "pacmanleft.png", "pacmanup.png", "pacmandown.png");
             }
             else if (player.pac.getGlobalBounds().intersects(Clyde.ghosts.getGlobalBounds()) && frightmode() == false)
             {
                 pacmanlives--;
+                sounds.set_Sounds("pacman_death.wav");
+                sounds.s.setBuffer(sounds.buffer);
+                sounds.s.play();
                 player.Set_Player(26, 14, "pacmanright.png", "pacmanleft.png", "pacmanup.png", "pacmandown.png");
             }
             else if (player.pac.getGlobalBounds().intersects(Blinky.ghosts.getGlobalBounds())  && frightmode() == false)
             {
                 pacmanlives--;
+                sounds.set_Sounds("pacman_death.wav");
+                sounds.s.setBuffer(sounds.buffer);
+                sounds.s.play();
                 player.Set_Player(26, 14, "pacmanright.png", "pacmanleft.png", "pacmanup.png", "pacmandown.png");
             }
             else if (player.pac.getGlobalBounds().intersects(Blinky.ghosts.getGlobalBounds()) && frightmode() == true)
             {
                 score=score+200;
+                sounds.set_Sounds("pacman_eatghost.wav");
+                sounds.s.setBuffer(sounds.buffer);
+                sounds.s.play();
             }
             else if (player.pac.getGlobalBounds().intersects(Inky.ghosts.getGlobalBounds()) && frightmode() == true)
             {
                 score = score + 200;
+                sounds.set_Sounds("pacman_eatghost.wav");
+                sounds.s.setBuffer(sounds.buffer);
+                sounds.s.play();
             }
             else if (player.pac.getGlobalBounds().intersects(Pinky.ghosts.getGlobalBounds()) && frightmode() == true)
             {
                 score = score + 200;
+                sounds.set_Sounds("pacman_eatghost.wav");
+                sounds.s.setBuffer(sounds.buffer);
+                sounds.s.play();
             }
             else if (player.pac.getGlobalBounds().intersects(Clyde.ghosts.getGlobalBounds()) && frightmode() == true)
             {
                 score = score + 200;
+                sounds.set_Sounds("pacman_eatghost.wav");
+                sounds.s.setBuffer(sounds.buffer);
+                sounds.s.play();
             }
             
         }
