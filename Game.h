@@ -1,6 +1,15 @@
+#pragma once
+#include<SFML/Graphics.hpp>
+#include<SFML/Audio.hpp>
+#include<iostream>
+#include<fstream>
+using namespace std;
+using namespace sf;
+
 #include "Board.h"
 #include "Player.h"
 #include "Ghosts.h"
+#include "Sounds.h"
 #include "sstream"
 
 class Game
@@ -27,6 +36,7 @@ private:
     Ghost Clyde;
     Ghost Blinky;
     Board board;
+    Sounds sounds;
     void LivesConstructor();
     void Display_lives();
     void Display_score();
@@ -35,6 +45,7 @@ private:
     void computeLives();
     bool frightmode();
     void checkfrightmode();
+    void sound();
 
 public:
     Game();
