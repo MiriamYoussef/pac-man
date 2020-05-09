@@ -9,15 +9,14 @@ private:
     int count = 0;
 
 public:
-    // To create the initial adjacency matrix 
-    void displayMatrix();
+    void set_Graph(int arr[34][28]);
     void add_edge(int arr[34][38]);
     Board board;
 
-    Graph(int arr[34][28]);
+    Graph();
 
     // Function to insert a new edge 
-    void addEdge(int arr[34][38]);
+    
 
     // Function to display the BFS traversal 
     void BFS(int start);
