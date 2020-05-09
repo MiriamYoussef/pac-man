@@ -16,7 +16,7 @@ private:
     //int XD,YD;
 public:
     void drawonwindow(RenderWindow& window, int  rows, int cols);
-    void Set_Board(int[][28]);
+    void Set_Board(int[34][28]);
     CircleShape dot[34][28];
     RectangleShape board[34][28];
     Board();
