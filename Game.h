@@ -10,6 +10,7 @@ using namespace sf;
 #include "Player.h"
 #include "Ghosts.h"
 #include "Sounds.h"
+#include "Graph.h"
 #include "sstream"
 
 class Game
@@ -20,14 +21,14 @@ private:
     int arr[34][28];
     int pacmanlives;
     RectangleShape life1, life2, life3;
-    Texture transparent, life;
+    Texture transparent, life, blue;
     RenderWindow window;
-    Text scoretext, highscoretext, livestext, starttext, endtext, scorenumbers, highscorenumbers;
+    Text scoretext, highscoretext, livestext, starttext, key, endtext, scorenumbers, highscorenumbers;
     Font font;
     int score;
     int highscore;
-    Texture blue;
-    Time sec;
+    bool keypressed;
+    Time sec, milsec;
     Time elapsed;
     Clock clock;
     Player player;
@@ -36,6 +37,7 @@ private:
     Ghost Clyde;
     Ghost Blinky;
     Board board;
+    Graph graph;
     Sounds sounds;
     void LivesConstructor();
     void Display_lives();
